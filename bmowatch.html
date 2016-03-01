@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html hola_ext_inject="disabled"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>BMO</title>
+  <link rel="stylesheet" type="text/css" href="./Diamond_files/slate.min.css">
+  <script src="./Diamond_files/slate.min.js"></script>
+  <style>
+  .title {
+    padding: 15px 10px;
+    text-transform: uppercase;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #888888;
+    text-align: center;
+  }
+  </style>
+  <style id="style-1-cropbar-clipper">
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style></head>
+
+  <body>
+    <h1 class="title">Choose your color</h1>
+
+    <div class="item-container">
+      <div class="item-container-content">
+        <div class="item">
+          Pick one.
+        </div>
+      </div>
+    </div>
+
+    <div class="item-container">
+      <div class="item-container-content">
+        <label class="item">Gem
+          <select id="background_color_picker" class="item-select">
+            <option class="item-select-option" value="0">BMO</option>
+            <option class="item-select-option" value="1">JOHNCENA</option>
+            <option class="item-select-option" value="2">JCA</option>
+            <option class="item-select-option" value="3">LOL</option>
+            </select>
+        <div class="select-triangle"></div></label>
+      </div>
+    </div>
+
+    <div class="item-container">
+      <div class="button-container">
+        <input id="submit_button" type="button" class="item-button" value="SUBMIT">
+      </div>
+    </div>
+  
+  <script>
+  function getConfigData() {
+    var backgroundColorPicker = document.getElementById('background_color_picker');
+ 
+    var options = {
+      'gem_color': backgroundColorPicker.value,
+    };
+
+    // Save for next launch
+    localStorage['gem_color'] = options['gem_color'];
+
+    console.log('Got options: ' + JSON.stringify(options));
+    return options;
+  }
+
+  function getQueryParam(variable, defaultValue) {
+    var query = location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split('=');
+      if (pair[0] === variable) {
+        return decodeURIComponent(pair[1]);
+      }
+    }
+    return defaultValue || false;
+  }
+ 
+  var submitButton = document.getElementById('submit_button');
+  submitButton.addEventListener('click', function() {
+    console.log('Submit');
+
+    // Set the return URL depending on the runtime environment
+    var return_to = getQueryParam('return_to', 'pebblejs://close#');
+    document.location = return_to + encodeURIComponent(JSON.stringify(getConfigData()));
+  });
+
+  (function() {
+    var backgroundColorPicker = document.getElementById('background_color_picker');
+
+    // Load any previously saved configuration, if available
+    if(localStorage['gem_color']) {
+      backgroundColorPicker.value = localStorage['gem_color'];
+    }
+  })();
+  </script>
+</body></html>
